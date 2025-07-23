@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100">
+    <h1 class="display-3 fw-bold mb-5">NOMINK</h1>  <!-- TITULO GRANDE -->
+
+    <div class="card shadow p-4 w-100" style="max-width: 400px;">
+        <h3 class="text-center mb-4">Iniciar Sesión</h3>
+        <form method="post">
+            {% csrf_token %}
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Usuario</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -4,3 +4,4 @@ from .presupuesto import *
 from .servicio import *
 from .paciente import *
 from .estudio import *
+from .financiadora_convenios import *

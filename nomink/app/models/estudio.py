@@ -9,7 +9,7 @@ class Estudio(models.Model):
     servicio = models.ForeignKey(Servicio, null=False, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} ({self.codigo})"
 
     class Meta:
         verbose_name = "Estudio"

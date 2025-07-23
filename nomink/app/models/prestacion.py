@@ -23,8 +23,8 @@ class PrestacionPrecio(models.Model):
     fecha_fin = models.DateField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Precio de Prestación"
-        verbose_name_plural = "Precios de Prestaciones"
+        verbose_name = "Precio historico"
+        verbose_name_plural = "Historial del precio de Prestaciones"
         indexes = [
             models.Index(fields=["prestacion", "fecha_inicio"]),
             models.Index(fields=["prestacion", "fecha_fin"]),

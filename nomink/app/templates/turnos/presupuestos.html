@@ -1,0 +1,42 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}Generar Presupuesto{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Generar Presupuesto</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Datos del Paciente -->
+        <div class="mb-3">
+            <label for="dni" class="form-label">DNI del Paciente</label>
+            <input type="text" class="form-control" name="dni" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="financiadora" class="form-label">Obra Social</label>
+            <select class="form-select" name="financiadora" required>
+                <option value="">Seleccionar...</option>
+                {% for financiadora in financiadoras %}
+                    <option value="{{ financiadora.id }}">{{ financiadora.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Prestaciones -->
+        <div class="mb-3">
+            <label for="prestaciones" class="form-label">Estudios</label>
+            <select class="form-select" name="prestaciones" multiple required>
+                {% for prestacion in prestaciones %}
+                    <option value="{{ prestacion.id }}">{{ prestacion.nombre }}</option>
+                {% endfor %}
+            </select>
+            <div class="form-text">Usá Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples.</div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Generar Presupuesto</button>
+    </form>
+</div>
+{% endblock %}

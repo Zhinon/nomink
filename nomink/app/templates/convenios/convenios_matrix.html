@@ -1,0 +1,67 @@
+{% extends "admin/base_site.html" %}
+{% load admin_extras %}
+{% load static %}
+
+{% block content %}
+<h1>Tabla de Cobertura por Prestación y Financiadora</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div style="overflow-x: auto;">
+        <table class="table table-bordered table-striped" style="min-width: 900px;">
+            <thead>
+                <tr>
+                    <th>Prestación</th>
+                    {% for financiadora in financiadoras %}
+                        <th>{{ financiadora.nombre }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for prestacion in prestaciones %}
+                <tr>
+                    <td>{{ prestacion.nombre }}</td>
+                    {% for financiadora in financiadoras %}
+                        {% with prest_id=prestacion.id|stringformat:"s" %}
+                            {% with fin_id=financiadora.id|stringformat:"s" %}
+                                {% with key=prest_id|add:"_"|add:fin_id %}
+                                    <td style="background-color: {{ dias_map|get_item:key|convenio_color }};"
+                                    title="{% if dias_map|get_item:key is not None %}Última actualización: {{ dias_map|get_item:key }} días atrás{% else %}Sin historial{% endif %}">
+                                        <input type="number" min="0" max="100" step="1"
+                                            name="input_{{ key }}"
+                                            value="{{ cobertura_map|get_item:key|default_if_none:'' }}"
+                                            style="width: 60px;" />
+                                        <span style="color: black;">%</span>
+                                    </td>
+                                {% endwith %}
+                            {% endwith %}
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 20px; margin-bottom: 20px;">
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </div>
+</form>
+<div style="margin-bottom: 1em;">
+    <strong>Leyenda de colores:</strong>
+    <div style="display: flex; gap: 10px; margin-top: 5px;">
+        <div style="background-color: #62ec82; width: 20px; height: 20px; border-radius: 3px;"></div>
+        <span style="margin-right: 15px;">Reciente (&lt; 50 días desde la ultima actualización)</span>
+        <div style="background-color: #ffcc00; width: 20px; height: 20px; border-radius: 3px;"></div>
+        <span style="margin-right: 15px;">Moderado (entre 50 y 180 días desde la ultima actualización)</span>
+        <div style="background-color: #ff4d4d; width: 20px; height: 20px; border-radius: 3px;"></div>
+        <span>Antiguo (&gt; 180 días desde la ultima actualización)</span>
+    </div>
+</div>
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+{% endblock %}

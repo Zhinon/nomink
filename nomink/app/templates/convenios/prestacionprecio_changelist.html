@@ -1,0 +1,10 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+  <form method="get" style="margin-bottom: 20px;">
+    <label for="vigente_en">Buscar precio vigente en fecha:</label>
+    <input type="date" id="vigente_en" name="vigente_en" value="{{ vigente_en }}">
+    <button type="submit" class="button">Buscar</button>
+  </form>
+  {{ block.super }}
+{% endblock %}
